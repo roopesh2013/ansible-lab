@@ -1,0 +1,42 @@
+---
+- name: Create Users with given yml file nested_items
+  hosts: all
+  become: yes
+  gather_facts: no
+  vars:
+     group:
+         - dev
+         - prod
+  vars_files:
+         - user_list.yml
+  tasks:
+  - yum:
+      name: expect
+      state: latest
+    ignore_errors: yes
+  - group:
+       name: "{{ item }}"
+       state: present
+    loop: "{{ group }}"
+  - user:
+      name: "{{ item.0.name }}"
+      password: "{{ item.0.pw |password_hash('SHA512') }}"
+      group: dev
+      groups: "{{ items.1 }}"
+    when: 
+       - "item.0.job  == 'dev'"
+       - "inventory_hostname in groups['webservers']"
+    with_nested:
+          - "{{ users }}"
+          - "{{ groups }}"
+  - user:
+      name: "{{ item.0.name }}"
+      password: "{{ item.0.pw |password_hash('SHA512') }}"
+      group: prod
+      groups: "{{ items.1 }}"
+    when: 
+       - "item.0.job  == 'prod'"
+       - "inventory_hostname in groups['dbservers']"
+    with_nested:
+          - "{{ users }}"
+          - "{{ groups }}"

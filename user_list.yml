@@ -1,0 +1,11 @@
+- users:
+    - name: joe
+      job: dev
+      pw: test
+    - name: ran
+      job: prod
+      pw: test
+- groups:
+     - dev
+     - test
+     - work
