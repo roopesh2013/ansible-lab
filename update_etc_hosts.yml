@@ -1,0 +1,9 @@
+---
+- name: build hosts file for selected group of hosts with all server details
+  hosts: all
+  become: yes
+  tasks:
+  - template:
+       src: hosts.j2
+       dest: /etc/hosts
+    when: inventory_hostname in groups['dev']
