@@ -1,0 +1,9 @@
+---
+  - name: Install a package
+    yum:
+       name: httpd
+       state: latest
+  - name: check the service
+    service:
+        name: httpd
+        state: started

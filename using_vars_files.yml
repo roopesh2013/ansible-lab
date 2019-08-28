@@ -1,0 +1,16 @@
+---
+- name: check vars
+  hosts: webservers
+  become: yes
+  vars_files:
+        - vars_dirs_files.yml
+        - user_group.info
+  tasks:
+  - include: install_start_httpd.yml
+  - debug:
+       msg: "file names are {{ item }}"
+    loop:  "{{ file_name }}"
+  - debug:
+        msg: "user names are {{ item }}"
+    loop: "{{ users }}"
+    

@@ -1,0 +1,16 @@
+---
+- name: install a software
+  hosts: webservers
+  become: yes
+  gather_facts: false
+  tasks:
+  - block:
+    - name: use yum
+      yum:
+        name: abcaaaa
+        state: latest
+    rescue:
+    - name: rescue
+      debug:
+         msg: "Unable to install abc"
+
