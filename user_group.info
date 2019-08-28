@@ -1,0 +1,9 @@
+users:
+   - joe
+   - roopesh
+   - rowan
+   - sonu
+groups_name:
+   - family
+   - work
+   - school
